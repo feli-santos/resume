@@ -11,10 +11,6 @@ CV_Felipe Santos_Globant.docx
 LinkedIn_Profile.pdf
 LinkedIn_Update.md
 
-# Resume variant containing personal phone number
-Felipe_Santos_Resume.docx
-Felipe_Santos_Resume.pdf
-
 # ---------------------------------------------------------------
 # Build & OS artifacts
 # ---------------------------------------------------------------
@@ -24,5 +20,5 @@ node_modules/
 .DS_Store
 .ruff_cache/
 
-# Local secrets (phone number, etc.)
+# Local environment overrides
 .env.local

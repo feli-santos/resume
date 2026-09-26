@@ -6,7 +6,7 @@ Tech Lead & Solutions Architect at Globant's Physical AI Studio. I build systems
 the physical and digital worlds — agentic AI platforms with LLM reasoning cores, real-time
 computer vision at the edge, and IoT platforms managing fleets of 20,000+ devices.
 
-📄 **[Download the PDF](./Felipe_Santos_Resume_Public.pdf)** · 📝 [DOCX](./Felipe_Santos_Resume_Public.docx)
+📄 **[Download the PDF](./Felipe_Santos_Resume.pdf)** · 📝 [DOCX](./Felipe_Santos_Resume.docx)
 
 ---
 
@@ -14,9 +14,9 @@ computer vision at the edge, and IoT platforms managing fleets of 20,000+ device
 
 | File | Description |
 |------|-------------|
-| `Felipe_Santos_Resume_Public.pdf` | Current resume, ATS-optimized, 2 pages |
-| `Felipe_Santos_Resume_Public.docx` | Editable Word version |
-| `build_resume.js` | Generates both files programmatically |
+| `Felipe_Santos_Resume.pdf` | Current resume, ATS-optimized, 2 pages |
+| `Felipe_Santos_Resume.docx` | Editable Word version |
+| `build_resume.js` | Generates the DOCX and PDF programmatically |
 
 ## Why a build script?
 
@@ -26,12 +26,11 @@ typography, reproducible output, and a diffable history of every change.
 ```bash
 npm install -g docx
 
-node build_resume.js            # full version (phone from PHONE env var / .env.local)
-node build_resume.js --public   # omits phone number
+node build_resume.js
 ```
 
-Each run writes the DOCX **and** exports the matching PDF automatically via LibreOffice
-(`soffice`). If LibreOffice isn't installed the build still produces the DOCX and prints a warning.
+Each run writes the DOCX **and** exports the PDF automatically via LibreOffice (`soffice`).
+If LibreOffice isn't installed the build still produces the DOCX and prints a warning.
 
 ### Design notes
 
@@ -39,6 +38,9 @@ Each run writes the DOCX **and** exports the matching PDF automatically via Libr
 - **Real text, no images** — everything is machine-readable
 - **Semantic structure** — heading styles carry document outline, not just visual formatting
 - **`keepNext` on subheadings** — prevents orphaned headings at page breaks
+- **Bold reserved for structure** — headings, role titles and section labels only, so body copy
+  reads evenly instead of looking keyword-stuffed
+- **No phone number** — contact routes through email and LinkedIn, keeping the repo publishable
 
 ---
 

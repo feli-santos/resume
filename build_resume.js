@@ -29,13 +29,6 @@ const {
   AlignmentType, BorderStyle, TabStopType, TabStopPosition,
 } = requireDocx();
 
-// ---- Build mode ----
-// `node build_resume.js --public` omits the phone number (safe for public GitHub).
-// Default build includes it (for direct applications), read from the PHONE env var:
-//   PHONE="+55 xx xxxxx-xxxx" node build_resume.js
-const PUBLIC = process.argv.includes("--public");
-const PHONE = process.env.PHONE || "";
-
 // ---- Palette ----
 const TEAL = "0E6E6A";      // petrol teal accent
 const CHARCOAL = "212121";  // primary text
@@ -77,7 +70,12 @@ const bullet = (children, opts = {}) =>
     children,
   });
 
-const b = (text) => t(text, { bold: true });
+// Inline emphasis inside body copy. Kept plain: bold is reserved for headings and
+// section labels, so running text reads evenly instead of looking keyword-stuffed.
+const b = (text) => t(text);
+
+// Bold label at the start of a line (e.g. "AI & ML:", "Languages:").
+const label = (text) => t(text, { bold: true });
 
 // Client/section sub-heading that never gets orphaned at a page bottom
 const clientHeading = (text, dates) =>
@@ -132,7 +130,6 @@ const doc = new Document({
         spacing: { after: 20 },
         children: [
           t("Belo Horizonte, Brazil (remote-first, open to global mobility & travel)   |   ", { size: 19, color: GRAY }),
-          ...(!PUBLIC && PHONE ? [t(`${PHONE}   |   `, { size: 19, color: GRAY })] : []),
           link("felipeaugustodosantos@gmail.com", "mailto:felipeaugustodosantos@gmail.com"),
         ],
       }),
@@ -168,28 +165,28 @@ const doc = new Document({
       new Paragraph({
         spacing: { after: 20 },
         children: [
-          b("AI & ML:  "),
+          label("AI & ML:  "),
           t("Physical AI · Edge AI · Agentic AI & Autonomous Systems · LLM Reasoning & Multi-Agent Orchestration · GenAI Platform Architecture · Computer Vision (YOLO, OpenCV, NVIDIA DeepStream, TensorRT, Triton, OpenVINO, custom model training) · MLOps (SageMaker, edge-to-cloud pipelines) · PyTorch · TensorFlow · Sensor Fusion · Reinforcement Learning · Real-Time Inference Optimization"),
         ],
       }),
       new Paragraph({
         spacing: { after: 20 },
         children: [
-          b("IoT & Edge:  "),
+          label("IoT & Edge:  "),
           t("AIoT Platforms · IoT Device Management at Scale (20,000+ devices) · Azure IoT Hub/Edge · AWS IoT Core · OTA Updates (Balena, Mender) · Zero-Touch Provisioning · MQTT/Mosquitto · BLE Beacons & Gateways · NVIDIA Jetson · Raspberry Pi · Embedded Linux · Robotics · Digital Twins · Industrial Edge Computing · IoT Cybersecurity"),
         ],
       }),
       new Paragraph({
         spacing: { after: 20 },
         children: [
-          b("Cloud & Platform:  "),
+          label("Cloud & Platform:  "),
           t("Multi-Cloud (AWS, Azure, GCP) · CloudOps · Terraform/IaC · Docker · Kubernetes · CI/CD · Microservices & Event-Driven Architecture · Serverless (Cloud Run, Lambda, ECS) · High-Throughput Data Ingestion (Pub/Sub, Dataflow, Kinesis Firehose) · Go · Python · Bash · SQL/NoSQL (Firestore, DynamoDB)"),
         ],
       }),
       new Paragraph({
         spacing: { after: 60 },
         children: [
-          b("Leadership & AI-Native Delivery:  "),
+          label("Leadership & AI-Native Delivery:  "),
           t("Solutions Architecture · Presales & Technical Storytelling · Technical Roadmaps · Team Leadership · Stakeholder Management · Executive Demos · Vendor Management · Staffing Strategy · Mentoring · Technical Hiring · Agentic Coding (Claude Code, Codex, OpenCode) · Spec-Driven Development · Context & Token Engineering · Agent Harness Design"),
         ],
       }),
@@ -256,17 +253,13 @@ const doc = new Document({
       new Paragraph({
         spacing: { before: 60, after: 0 },
         children: [
-          b("Languages:  "),
+          label("Languages:  "),
           t("Portuguese (native)  ·  English (fluent, C2)  ·  Spanish (fluent, C2)"),
         ],
       }),
     ],
   }],
 });
-
-const outFile = PUBLIC
-  ? path.join(OUT_DIR, "Felipe_Santos_Resume_Public.docx")
-  : DOCX_PATH;
 
 // ---- PDF export via LibreOffice ----
 // Uses an isolated user profile so an already-open LibreOffice instance can't block the build.
@@ -293,7 +286,7 @@ function exportPdf(docxPath) {
 }
 
 Packer.toBuffer(doc).then((buffer) => {
-  fs.writeFileSync(outFile, buffer);
-  console.log(`DOCX written: ${outFile}${PUBLIC ? " (no phone)" : ""}`);
-  exportPdf(outFile);
+  fs.writeFileSync(DOCX_PATH, buffer);
+  console.log(`DOCX written: ${DOCX_PATH}`);
+  exportPdf(DOCX_PATH);
 });
