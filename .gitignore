@@ -1,0 +1,28 @@
+# ---------------------------------------------------------------
+# Private / employer-confidential material — never commit these.
+# ---------------------------------------------------------------
+
+# Globant-internal documents (proprietary & confidential)
+BIO - Felipe Santos.pptx
+CV_Felipe Santos_Globant.docx
+*Globant*
+
+# LinkedIn export and profile drafts
+LinkedIn_Profile.pdf
+LinkedIn_Update.md
+
+# Resume variant containing personal phone number
+Felipe_Santos_Resume.docx
+Felipe_Santos_Resume.pdf
+
+# ---------------------------------------------------------------
+# Build & OS artifacts
+# ---------------------------------------------------------------
+node_modules/
+*.jpg
+*.png
+.DS_Store
+.ruff_cache/
+
+# Local secrets (phone number, etc.)
+.env.local
