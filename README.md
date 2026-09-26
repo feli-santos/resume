@@ -26,15 +26,12 @@ typography, reproducible output, and a diffable history of every change.
 ```bash
 npm install -g docx
 
-node build_resume.js            # full version
+node build_resume.js            # full version (phone from PHONE env var / .env.local)
 node build_resume.js --public   # omits phone number
 ```
 
-Export to PDF:
-
-```bash
-soffice --headless --convert-to pdf Felipe_Santos_Resume_Public.docx
-```
+Each run writes the DOCX **and** exports the matching PDF automatically via LibreOffice
+(`soffice`). If LibreOffice isn't installed the build still produces the DOCX and prints a warning.
 
 ### Design notes
 

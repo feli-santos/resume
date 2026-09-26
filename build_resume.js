@@ -1,8 +1,33 @@
 const fs = require("fs");
+const path = require("path");
+const { execFileSync } = require("child_process");
+
+const OUT_DIR = "/Users/felipe.santos/Documents/resume";
+const DOCX_PATH = path.join(OUT_DIR, "Felipe_Santos_Resume.docx");
+
+// ---- Resolve `docx` locally, else fall back to the global npm install ----
+function requireDocx() {
+  try {
+    return require("docx");
+  } catch (err) {
+    if (err.code !== "MODULE_NOT_FOUND") throw err;
+    try {
+      const globalRoot = execFileSync("npm", ["root", "-g"], { encoding: "utf8" }).trim();
+      return require(path.join(globalRoot, "docx"));
+    } catch {
+      console.error(
+        "Could not load the 'docx' package.\n" +
+        "Install it with:  npm install -g docx    (or)    npm install docx"
+      );
+      process.exit(1);
+    }
+  }
+}
+
 const {
   Document, Packer, Paragraph, TextRun, ExternalHyperlink, LevelFormat,
   AlignmentType, BorderStyle, TabStopType, TabStopPosition,
-} = require("docx");
+} = requireDocx();
 
 // ---- Build mode ----
 // `node build_resume.js --public` omits the phone number (safe for public GitHub).
@@ -101,7 +126,7 @@ const doc = new Document({
       }),
       new Paragraph({
         spacing: { after: 60 },
-        children: [t("Physical AI | Edge AI | IoT Platforms | Solutions Architect | Technical Lead | M.Sc. in AIoT & Cybersecurity", { bold: true, size: 22, color: TEAL })],
+        children: [t("Physical AI | Edge AI | AIoT Platforms | Solutions Architect · Tech Lead · Practice Lead | M.Sc. in AIoT & Cybersecurity", { bold: true, size: 22, color: TEAL })],
       }),
       new Paragraph({
         spacing: { after: 20 },
@@ -128,13 +153,13 @@ const doc = new Document({
         children: [
           t("Senior technical leader with 7+ years architecting intelligent systems that connect the physical and digital worlds — "),
           b("Physical AI, Edge AI, AIoT, computer vision, robotics, and agentic AI platforms with LLM reasoning cores"),
-          t(". Practice Lead for Edge AI & Platforms within Globant's Physical AI Studio and member of the studio management team. Proven record leading cross-functional teams of 5+ engineers across "),
+          t(". Practice Lead for Edge AI & Platforms within a 50+ person Physical AI Studio at Globant and member of the studio management team. Proven record leading cross-functional teams of up to 8 engineers across "),
           b("AWS, Azure, and GCP"),
           t(", delivering mission-critical platforms for global brands (LATAM Airlines, NBA/LA Clippers, Universal, Disney). Trusted client-facing solutions architect driving "),
           b("presales wins, PoCs, MVPs and multi-project account growth"),
           t(". AI-native engineering practitioner: "),
           b("agentic coding workflows, spec-driven development, context engineering, and AI agent harness design"),
-          t(" for record-speed delivery. Mentor, technical interviewer (gatekeeper), and multilingual communicator (EN/PT/ES)."),
+          t(" for record-speed delivery. Mentor to multiple engineers, technical hiring gatekeeper (10+ interviews), and multilingual communicator (EN/PT/ES)."),
         ],
       }),
 
@@ -165,22 +190,22 @@ const doc = new Document({
         spacing: { after: 60 },
         children: [
           b("Leadership & AI-Native Delivery:  "),
-          t("Solutions Architecture · Presales & Technical Storytelling · Team Leadership · Stakeholder Management · Mentoring · Technical Hiring · Agentic Coding (Claude Code, Codex, OpenCode) · Spec-Driven Development · Context & Token Engineering · Agent Harness Design"),
+          t("Solutions Architecture · Presales & Technical Storytelling · Technical Roadmaps · Team Leadership · Stakeholder Management · Executive Demos · Vendor Management · Staffing Strategy · Mentoring · Technical Hiring · Agentic Coding (Claude Code, Codex, OpenCode) · Spec-Driven Development · Context & Token Engineering · Agent Harness Design"),
         ],
       }),
 
       // ================= EXPERIENCE =================
       sectionHeading("Professional Experience"),
 
-      roleLine("GLOBANT — Technology Consultant | Tech Lead · Solutions Architect · Practice Lead", "May 2022 – Present"),
-      subLine("Physical AI Studio — Edge AI, AIoT, computer vision, and robotics solutions for aviation, sports & entertainment, smart venues, utilities, and manufacturing."),
+      roleLine("GLOBANT — Tech Lead · Solutions Architect · Practice Lead", "May 2022 – Present"),
+      subLine("Physical AI Studio (official title: Technology Consultant) — Edge AI, AIoT, computer vision, and robotics solutions for aviation, sports & entertainment, smart venues, utilities, and manufacturing."),
 
       clientHeading("Studio & Practice Leadership"),
-      bullet([t("Practice Lead for "), b("Edge AI and Platforms"), t(" verticals; contributor to Robotics and Embedded practices within the Physical AI Studio.")]),
+      bullet([t("Practice Lead for "), b("Edge AI and Platforms"), t(" verticals within a "), b("50+ person Physical AI Studio"), t("; contributor to Robotics and Embedded practices.")]),
       bullet([t("Member of the studio management team: drive hackathons, tech sessions, internal R&D prototypes, and staffing strategy for studio projects.")]),
       bullet([t("Tech Lead of internal product initiatives: "), b("RobOps platform and intelligent edge devices for human-robot interaction"), t(" (Edge AI + robotics prototypes).")]),
       bullet([t("Solutions Architect in presales: technical pitches, solution design, PoCs, MVPs, and live demos contributing to "), b("multiple six-figure USD project wins"), t(", plus account extensions and upsells.")]),
-      bullet([t("Mentor to multiple engineers and hiring gatekeeper conducting technical interviews for staffing candidates.")]),
+      bullet([t("Mentor to multiple engineers and studio hiring gatekeeper: "), b("10+ technical interviews"), t(" for staffing candidates.")]),
 
       clientHeading("LATAM Airlines — Lead Architect & Engineer, Agentic AI Operations Platform", "2026 – Present"),
       bullet([t("Principal architect of an "), b("AI platform with an LLM reasoning core"), t(" for real-time monitoring, management, and control of airport turnaround operations — anomaly detection, operational risk identification, and "), b("autonomous decision-making"), t(".")]),
@@ -232,7 +257,7 @@ const doc = new Document({
         spacing: { before: 60, after: 0 },
         children: [
           b("Languages:  "),
-          t("Portuguese (native)  ·  English (full professional)  ·  Spanish (full professional)"),
+          t("Portuguese (native)  ·  English (fluent, C2)  ·  Spanish (fluent, C2)"),
         ],
       }),
     ],
@@ -240,10 +265,35 @@ const doc = new Document({
 });
 
 const outFile = PUBLIC
-  ? "/Users/felipe.santos/Documents/resume/Felipe_Santos_Resume_Public.docx"
-  : "/Users/felipe.santos/Documents/resume/Felipe_Santos_Resume.docx";
+  ? path.join(OUT_DIR, "Felipe_Santos_Resume_Public.docx")
+  : DOCX_PATH;
+
+// ---- PDF export via LibreOffice ----
+// Uses an isolated user profile so an already-open LibreOffice instance can't block the build.
+function exportPdf(docxPath) {
+  try {
+    execFileSync(
+      "soffice",
+      [
+        "--headless",
+        "-env:UserInstallation=file:///tmp/lo_resume_profile",
+        "--convert-to", "pdf",
+        "--outdir", OUT_DIR,
+        docxPath,
+      ],
+      { stdio: "pipe" }
+    );
+    console.log(`PDF written:  ${docxPath.replace(/\.docx$/, ".pdf")}`);
+  } catch {
+    console.warn(
+      "WARNING: PDF export skipped — LibreOffice ('soffice') not found or conversion failed.\n" +
+      "         The DOCX is intact; install LibreOffice or export manually."
+    );
+  }
+}
 
 Packer.toBuffer(doc).then((buffer) => {
   fs.writeFileSync(outFile, buffer);
   console.log(`DOCX written: ${outFile}${PUBLIC ? " (no phone)" : ""}`);
+  exportPdf(outFile);
 });
