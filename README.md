@@ -1,10 +1,11 @@
 # Resume — Felipe Santos
 
-**Physical AI · Edge AI · AIoT Platforms · Solutions Architecture**
+**Physical AI · Edge AI · AIoT Platforms · Solutions Architecture · Forward Deployed Engineering**
 
-Tech Lead & Solutions Architect at Globant's Physical AI Studio. I build systems that connect
-the physical and digital worlds — agentic AI platforms with LLM reasoning cores, real-time
-computer vision at the edge, and IoT platforms managing fleets of 20,000+ devices.
+Senior Technology Specialist, Tech Lead, Solutions Architect & Forward Deployed Engineer (FDE) at
+Globant's Physical AI Studio. I build systems that connect the physical and digital worlds —
+agentic AI platforms with LLM reasoning cores, real-time computer vision at the edge, and IoT
+platforms managing fleets of 20,000+ devices.
 
 📄 **[Download the PDF](./Felipe_Santos_Resume.pdf)** · 📝 [DOCX](./Felipe_Santos_Resume.docx)
 

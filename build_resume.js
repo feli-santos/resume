@@ -26,7 +26,7 @@ function requireDocx() {
 
 const {
   Document, Packer, Paragraph, TextRun, ExternalHyperlink, LevelFormat,
-  AlignmentType, BorderStyle, TabStopType, TabStopPosition,
+  AlignmentType, BorderStyle, TabStopType,
 } = requireDocx();
 
 // ---- Palette ----
@@ -35,21 +35,22 @@ const CHARCOAL = "212121";  // primary text
 const GRAY = "5A5A5A";      // secondary text
 
 const FONT = "Calibri";
+const RIGHT_TAB = 10440; // 12240 page width - 900 left margin - 900 right margin
 
 // ---- Helpers ----
 const t = (text, opts = {}) => new TextRun({ text, font: FONT, color: CHARCOAL, size: 20, ...opts });
 
 const sectionHeading = (text) =>
   new Paragraph({
-    spacing: { before: 200, after: 80 },
+    spacing: { before: 190, after: 75 },
     border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: TEAL, space: 2 } },
     children: [t(text.toUpperCase(), { bold: true, size: 22, color: TEAL, characterSpacing: 20 })],
   });
 
 const roleLine = (role, dates) =>
   new Paragraph({
-    spacing: { before: 140, after: 20 },
-    tabStops: [{ type: TabStopType.RIGHT, position: TabStopPosition.MAX }],
+    spacing: { before: 130, after: 20 },
+    tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
     children: [
       t(role, { bold: true, size: 21 }),
       t("\t" + dates, { size: 19, color: GRAY }),
@@ -65,7 +66,7 @@ const subLine = (text) =>
 const bullet = (children, opts = {}) =>
   new Paragraph({
     numbering: { reference: "bullets", level: 0 },
-    spacing: { after: 40 },
+    spacing: { after: 36 },
     ...opts,
     children,
   });
@@ -80,10 +81,10 @@ const label = (text) => t(text, { bold: true });
 // Client/section sub-heading that never gets orphaned at a page bottom
 const clientHeading = (text, dates) =>
   new Paragraph({
-    spacing: { before: 100, after: 20 },
+    spacing: { before: 95, after: 20 },
     keepNext: true,
     keepLines: true,
-    tabStops: [{ type: TabStopType.RIGHT, position: TabStopPosition.MAX }],
+    tabStops: [{ type: TabStopType.RIGHT, position: RIGHT_TAB }],
     children: dates
       ? [t(text, { bold: true, size: 20, color: TEAL }), t("\t" + dates, { size: 18, color: GRAY })]
       : [t(text, { bold: true, size: 20, color: TEAL })],
@@ -124,12 +125,12 @@ const doc = new Document({
       }),
       new Paragraph({
         spacing: { after: 60 },
-        children: [t("Physical AI | Edge AI | AIoT Platforms | Solutions Architect · Tech Lead · Practice Lead | M.Sc. in AIoT & Cybersecurity", { bold: true, size: 22, color: TEAL })],
+        children: [t("Physical AI | Edge AI | AIoT Platforms | Solutions Architect · Tech Lead · Forward Deployed Engineer · Specialist | M.Sc. in AIoT applied to Cybersecurity", { bold: true, size: 22, color: TEAL })],
       }),
       new Paragraph({
         spacing: { after: 20 },
         children: [
-          t("Belo Horizonte, Brazil (remote-first, open to global mobility & travel)   |   ", { size: 19, color: GRAY }),
+          t("Belo Horizonte, Brazil (Open to Global Mobility & Travel)   |   ", { size: 19, color: GRAY }),
           link("felipeaugustodosantos@gmail.com", "mailto:felipeaugustodosantos@gmail.com"),
         ],
       }),
@@ -148,15 +149,17 @@ const doc = new Document({
       new Paragraph({
         spacing: { after: 60 },
         children: [
-          t("Senior technical leader with 7+ years architecting intelligent systems that connect the physical and digital worlds — "),
+          t("Senior technology specialist with 8+ years architecting intelligent systems that connect the physical and digital worlds — "),
           b("Physical AI, Edge AI, AIoT, computer vision, robotics, and agentic AI platforms with LLM reasoning cores"),
-          t(". Practice Lead for Edge AI & Platforms within a 50+ person Physical AI Studio at Globant and member of the studio management team. Proven record leading cross-functional teams of up to 8 engineers across "),
+          t(". "),
+          b("Forward Deployed Engineer (FDE)"),
+          t(" and Practice Lead for Edge AI & Platforms from the Physical AI Studio at Globant, and member of the studio management team. Proven record leading cross-functional teams across "),
           b("AWS, Azure, and GCP"),
-          t(", delivering mission-critical platforms for global brands (LATAM Airlines, NBA/LA Clippers, Universal, Disney). Trusted client-facing solutions architect driving "),
-          b("presales wins, PoCs, MVPs and multi-project account growth"),
+          t(", delivering mission-critical platforms for global brands (LATAM Airlines, NBA/LA Clippers, Universal Parks, Disney Parks). Trusted client-facing solutions architect embedding directly with enterprise stakeholders from discovery to production — driving "),
+          b("presales, PoCs, MVPs, and multi-project account growth"),
           t(". AI-native engineering practitioner: "),
           b("agentic coding workflows, spec-driven development, context engineering, and AI agent harness design"),
-          t(" for record-speed delivery. Mentor to multiple engineers, technical hiring gatekeeper (10+ interviews), and multilingual communicator (EN/PT/ES)."),
+          t(" for record-speed delivery. Mentor to multiple engineers, technical hiring gatekeeper, and multilingual communicator (EN/PT/ES)."),
         ],
       }),
 
@@ -166,47 +169,47 @@ const doc = new Document({
         spacing: { after: 20 },
         children: [
           label("AI & ML:  "),
-          t("Physical AI · Edge AI · Agentic AI & Autonomous Systems · LLM Reasoning & Multi-Agent Orchestration · GenAI Platform Architecture · Computer Vision (YOLO, OpenCV, NVIDIA DeepStream, TensorRT, Triton, OpenVINO, custom model training) · MLOps (SageMaker, edge-to-cloud pipelines) · PyTorch · TensorFlow · Sensor Fusion · Reinforcement Learning · Real-Time Inference Optimization"),
+          t("Physical AI · Edge AI · Agentic AI & Autonomous Systems · LLM Reasoning & Multi-Agent Orchestration · GenAI Platform Architecture · Computer Vision (YOLO, OpenCV, NVIDIA DeepStream, TensorRT, Triton, custom model training) · MLOps (Edge-to-Cloud Pipelines) · PyTorch · TensorFlow · Sensor Fusion · Reinforcement Learning · Real-Time Inference Optimization"),
         ],
       }),
       new Paragraph({
         spacing: { after: 20 },
         children: [
           label("IoT & Edge:  "),
-          t("AIoT Platforms · IoT Device Management at Scale (20,000+ devices) · Azure IoT Hub/Edge · AWS IoT Core · OTA Updates (Balena, Mender) · Zero-Touch Provisioning · MQTT/Mosquitto · BLE Beacons & Gateways · NVIDIA Jetson · Raspberry Pi · Embedded Linux · Robotics · Digital Twins · Industrial Edge Computing · IoT Cybersecurity"),
+          t("AIoT Platforms · IoT Device Management at Scale (20,000+ devices) · Azure IoT Hub/Edge · AWS IoT Core · OTA Updates · Zero-Touch Provisioning · MQTT/Mosquitto · BLE Beacons & Gateways · NVIDIA Jetson · Raspberry Pi · Embedded Linux · Robotics · Digital Twins · Industrial Edge Computing · IoT Cybersecurity"),
         ],
       }),
       new Paragraph({
         spacing: { after: 20 },
         children: [
           label("Cloud & Platform:  "),
-          t("Multi-Cloud (AWS, Azure, GCP) · CloudOps · Terraform/IaC · Docker · Kubernetes · CI/CD · Microservices & Event-Driven Architecture · Serverless (Cloud Run, Lambda, ECS) · High-Throughput Data Ingestion (Pub/Sub, Dataflow, Kinesis Firehose) · Go · Python · Bash · SQL/NoSQL (Firestore, DynamoDB)"),
+          t("Multi-Cloud (AWS, Azure, GCP) · CloudOps · Terraform/IaC · Docker · Kubernetes · CI/CD · Microservices & Event-Driven Architecture · Serverless (Cloud Run, Lambda, ECS, VMs, etc) · High-Throughput Data Ingestion (Pub/Sub, Dataflow, Kinesis, etc) · Go · Python · Bash · Rust · SQL/NoSQL Databases"),
         ],
       }),
       new Paragraph({
         spacing: { after: 60 },
         children: [
           label("Leadership & AI-Native Delivery:  "),
-          t("Solutions Architecture · Presales & Technical Storytelling · Technical Roadmaps · Team Leadership · Stakeholder Management · Executive Demos · Vendor Management · Staffing Strategy · Mentoring · Technical Hiring · Agentic Coding (Claude Code, Codex, OpenCode) · Spec-Driven Development · Context & Token Engineering · Agent Harness Design"),
+          t("Forward Deployed Engineering (FDE) · Solutions Architecture · Technical Presales · Technical Roadmaps · Team Leadership · Technical Management · Executive Demos · Clients/Vendors Technical Facing and Focal Point · Mentoring · Technical Hiring · Agentic Coding (Claude Code, Codex, OpenCode, etc) · Spec-Driven Development · Context & Token Engineering · Agent Harness Design"),
         ],
       }),
 
       // ================= EXPERIENCE =================
       sectionHeading("Professional Experience"),
 
-      roleLine("GLOBANT — Tech Lead · Solutions Architect · Practice Lead", "May 2022 – Present"),
-      subLine("Physical AI Studio (official title: Technology Consultant) — Edge AI, AIoT, computer vision, and robotics solutions for aviation, sports & entertainment, smart venues, utilities, and manufacturing."),
+      roleLine("GLOBANT — Tech Lead · Solutions Architect · Forward Deployed Engineer · Technology Specialist", "May 2022 – Present"),
+      subLine("Physical AI Studio — Edge AI, AIoT, Computer Vision, and Robotics solutions for aviation, sports & entertainment, smart venues, utilities, and manufacturing."),
 
-      clientHeading("Studio & Practice Leadership"),
-      bullet([t("Practice Lead for "), b("Edge AI and Platforms"), t(" verticals within a "), b("50+ person Physical AI Studio"), t("; contributor to Robotics and Embedded practices.")]),
+      clientHeading("Studio & Technical Leadership"),
+      bullet([t("Forward Deployed Engineer and lead for "), b("Edge AI and Platforms"), t(" verticals within a "), b("50+ person Physical AI Studio"), t("; also contributor to Robotics and Embedded practices.")]),
       bullet([t("Member of the studio management team: drive hackathons, tech sessions, internal R&D prototypes, and staffing strategy for studio projects.")]),
       bullet([t("Tech Lead of internal product initiatives: "), b("RobOps platform and intelligent edge devices for human-robot interaction"), t(" (Edge AI + robotics prototypes).")]),
       bullet([t("Solutions Architect in presales: technical pitches, solution design, PoCs, MVPs, and live demos contributing to "), b("multiple six-figure USD project wins"), t(", plus account extensions and upsells.")]),
       bullet([t("Mentor to multiple engineers and studio hiring gatekeeper: "), b("10+ technical interviews"), t(" for staffing candidates.")]),
 
-      clientHeading("LATAM Airlines — Lead Architect & Engineer, Agentic AI Operations Platform", "2026 – Present"),
-      bullet([t("Principal architect of an "), b("AI platform with an LLM reasoning core"), t(" for real-time monitoring, management, and control of airport turnaround operations — anomaly detection, operational risk identification, and "), b("autonomous decision-making"), t(".")]),
-      bullet([t("Designed event-driven GCP architecture (Compute Engine, Pub/Sub, Cloud Run APIs, Dataflow, Firestore) in "), b("Go and Python"), t(" with "), b("multi-source sensor fusion"), t(": computer vision vendors, airline subsystems, and a "), b("proprietary BLE beacon/gateway solution"), t(" for people and asset tracking.")]),
+      clientHeading("LATAM Airlines — Forward Deployed Engineer & Lead Architect, Agentic AI Operations Platform", "2026 – Present"),
+      bullet([t("Embedded directly with airline operations and technical stakeholders as "), b("Forward Deployed Engineer (FDE) and Principal Architect"), t(" of an "), b("AI platform with an LLM reasoning core"), t(" for real-time monitoring, management, and control of airport turnaround operations — anomaly detection, operational risk identification, and "), b("autonomous decision-making"), t(".")]),
+      bullet([t("Designed and delivered event-driven GCP architecture (Compute Engine, Pub/Sub, Cloud Run APIs, Dataflow, Firestore) in "), b("Go and Python"), t(", leading end-to-end integration and "), b("multi-source sensor fusion"), t(" across computer vision vendors, airline subsystems, and a "), b("proprietary BLE beacon/gateway solution"), t(" for people and asset tracking.")]),
 
       clientHeading("Universal Parks — Jurassic Park Ride | Tech Lead, Architect & Principal Engineer", "2025 – 2026"),
       bullet([t("Architected a "), b("real-time computer vision safety and operational-efficiency platform at the edge"), t(": left-object detection, people counting, restricted-zone monitoring, and ride dispatch metrics, integrated with operator alert panels.")]),
@@ -254,7 +257,7 @@ const doc = new Document({
         spacing: { before: 60, after: 0 },
         children: [
           label("Languages:  "),
-          t("Portuguese (native)  ·  English (fluent, C2)  ·  Spanish (fluent, C2)"),
+          t("Portuguese (native)  ·  English (full professional)  ·  Spanish (full professional)"),
         ],
       }),
     ],
