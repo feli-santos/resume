@@ -125,7 +125,7 @@ const doc = new Document({
       }),
       new Paragraph({
         spacing: { after: 60 },
-        children: [t("Physical AI | Edge AI | AIoT Platforms | Solutions Architect · Tech Lead · Forward Deployed Engineer · Specialist | M.Sc. in AIoT applied to Cybersecurity", { bold: true, size: 22, color: TEAL })],
+        children: [t("Physical AI | Edge AI | AIoT Platforms | Solutions Architect · Tech Lead · Forward Deployed Engineer · Specialist | M.Sc. in AI applied to IoT Cybersecurity", { bold: true, size: 22, color: TEAL })],
       }),
       new Paragraph({
         spacing: { after: 20 },
