@@ -150,7 +150,7 @@ const doc = new Document({
         spacing: { after: 60 },
         children: [
           t("Senior technology specialist with 8+ years architecting intelligent systems that connect the physical and digital worlds — "),
-          b("Physical AI, Edge AI, AIoT, computer vision, robotics, and agentic AI platforms with LLM reasoning cores"),
+          b("Physical AI, Edge AI, AIoT Platforms, Computer Vision, Robotics, and Agentic AI Platforms with LLM reasoning cores"),
           t(". "),
           b("Forward Deployed Engineer (FDE)"),
           t(" and Practice Lead for Edge AI & Platforms from the Physical AI Studio at Globant, and member of the studio management team. Proven record leading cross-functional teams across "),
@@ -197,7 +197,7 @@ const doc = new Document({
       // ================= EXPERIENCE =================
       sectionHeading("Professional Experience"),
 
-      roleLine("GLOBANT — Tech Lead · Solutions Architect · Forward Deployed Engineer · Technology Specialist", "May 2022 – Present"),
+      roleLine("GLOBANT — Tech Lead · Solutions Architect · Physical AI FDE · Technology Specialist", "May 2022 – Present"),
       subLine("Physical AI Studio — Edge AI, AIoT, Computer Vision, and Robotics solutions for aviation, sports & entertainment, smart venues, utilities, and manufacturing."),
 
       clientHeading("Studio & Technical Leadership"),
@@ -207,7 +207,7 @@ const doc = new Document({
       bullet([t("Solutions Architect in presales: technical pitches, solution design, PoCs, MVPs, and live demos contributing to "), b("multiple six-figure USD project wins"), t(", plus account extensions and upsells.")]),
       bullet([t("Mentor to multiple engineers and studio hiring gatekeeper: "), b("10+ technical interviews"), t(" for staffing candidates.")]),
 
-      clientHeading("LATAM Airlines — Forward Deployed Engineer & Lead Architect, Agentic AI Operations Platform", "2026 – Present"),
+      clientHeading("LATAM Airlines — Physical AI FDE & Lead Architect, Agentic AI Operations Platform", "2026 – Present"),
       bullet([t("Embedded directly with airline operations and technical stakeholders as "), b("Forward Deployed Engineer (FDE) and Principal Architect"), t(" of an "), b("AI platform with an LLM reasoning core"), t(" for real-time monitoring, management, and control of airport turnaround operations — anomaly detection, operational risk identification, and "), b("autonomous decision-making"), t(".")]),
       bullet([t("Designed and delivered event-driven GCP architecture (Compute Engine, Pub/Sub, Cloud Run APIs, Dataflow, Firestore) in "), b("Go and Python"), t(", leading end-to-end integration and "), b("multi-source sensor fusion"), t(" across computer vision vendors, airline subsystems, and a "), b("proprietary BLE beacon/gateway solution"), t(" for people and asset tracking.")]),
 
