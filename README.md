@@ -16,22 +16,15 @@ platforms managing fleets of 20,000+ devices.
 | File | Description |
 |------|-------------|
 | `Felipe_Santos_Resume.pdf` | Current resume, ATS-optimized, 2 pages |
-| `Felipe_Santos_Resume.docx` | Editable Word version |
-| `build_resume.js` | Generates the DOCX and PDF programmatically |
+| `Felipe_Santos_Resume.docx` | Editable source of truth (edited by hand in Word) |
 
-## Why a build script?
+## Updating
 
-The resume is **generated from code**, not hand-edited in Word. One source of truth, consistent
-typography, reproducible output, and a diffable history of every change.
+Edit the DOCX, then re-export the PDF from it so the two stay in sync:
 
 ```bash
-npm install -g docx
-
-node build_resume.js
+soffice --headless --convert-to pdf Felipe_Santos_Resume.docx
 ```
-
-Each run writes the DOCX **and** exports the PDF automatically via LibreOffice (`soffice`).
-If LibreOffice isn't installed the build still produces the DOCX and prints a warning.
 
 ### Design notes
 
